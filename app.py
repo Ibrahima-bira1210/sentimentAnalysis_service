@@ -5,12 +5,17 @@ from preprocess import preprocess
 from sentiment import sentiment
 from topic import get_Topic
 import load_env as env
+from flasgger import swag_from
+from flasgger import Swagger
 
 app = Flask(__name__)
 run_with_ngrok(app)  # Start ngrok when app is run
 
+swagger = Swagger(app)
+
 
 @app.route('/getSentiment', methods=['GET'])
+@swag_from('./analysis.yml')
 def get_sentiment():  # put application's code here
     data = request.get_json()
     word = data['word']
@@ -19,6 +24,7 @@ def get_sentiment():  # put application's code here
 
 
 @app.route('/getCleanText', methods=['GET'])
+@swag_from('./clean.yml')
 def get_cleanText():  # put application's code here
     data = request.get_json()
     word = data['word']
@@ -26,6 +32,7 @@ def get_cleanText():  # put application's code here
 
 
 @app.route('/getTopic', methods=['GET'])
+@swag_from('./topic.yml')
 def get_topic():  # put application's code here
     data = request.get_json()
     word = data['word']
@@ -34,6 +41,7 @@ def get_topic():  # put application's code here
 
 
 @app.route('/loadSentimentToDB', methods=['POST'])
+@swag_from('./loadsentiment.yml')
 def load_sentiment():  # put application's code here
     conn = psycopg2.connect(host=env.db_host, database=env.db_name, port=env.db_port, user=env.db_user,
                             password=env.db_passwd)
@@ -57,6 +65,7 @@ def load_sentiment():  # put application's code here
 
 
 @app.route('/loadTopicToDB', methods=['GET'])
+@swag_from('./loadtopic.yml')
 def load_topic():  # put application's code here
     conn = psycopg2.connect(host=env.db_host, database=env.db_name, port=env.db_port, user=env.db_user,
                             password=env.db_passwd)

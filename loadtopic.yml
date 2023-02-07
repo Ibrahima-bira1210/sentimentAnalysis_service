@@ -1,0 +1,3 @@
+responses:
+  200:
+    description: A confirmation that load topic in DB is succesfully done

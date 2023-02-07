@@ -1,0 +1,11 @@
+parameters:
+  - name: tweet
+    in: path
+    type: string
+    required: true
+    default: a kind of tweet about machine learning #ML #DEVops
+
+
+responses:
+  200:
+    description: sentiment behind a giving tweet
